@@ -6,42 +6,48 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:21:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/13 12:44:19 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/15 23:18:11 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/uio.h>
 #include <unistd.h>
+#include "get_next_line.h"
 
-// recuperer la line avec le fd 
-// gérer les pb du buffer
-// malloc pour param 2 de read a l aide de BUFFER_SIZE
 //!!!!!!!!!!!!!
 #include <stdio.h>
+#include <fcntl.h>
 // !!!!!!!!!!!
+
 char	*get_next_line(int fd)
 {
-	char	*line;
-	int		i;
-	char	*buf;
+	int			i;
+	char		*line;
+	static int	ret;
+	static char	buf[BUFFER_SIZE];
 
-	while (line[i] != '\n')
-	{
-		buf = malloc(sizeof (char) * BUFFER_SIZE + 1);
-		if (!buf)
-			return (NULL); 
-		line = read(fd, buf, BUFFER_SIZE);
-		// !!!!!!!!!!!!!
-		printf("%s\n", line);
-		// !!!!!!!!!!!!
-	}
+	i = 0;
+	ret = read(fd, buf, BUFFER_SIZE);
+	while (buf[i] != '\n' && i < BUFFER_SIZE)
+		i++;
+	line = malloc(sizeof(char) * (i + 1));
+	if (!line)
+		return (NULL);
+	ft_memcpy(line, buf, i);
+	line[i] = '\0';
+	// erase this
+	printf("%s\n", line);
+	printf("%d\n", ret);
+	// erase this ^
+	return (line);
 }
+
 // MAIN A DELETE
 int main()
 {
 	int fd;
-	
-	fd = open("fichier.txt", O_RDONLY); 
+	fd = open("fichier.txt", O_RDWR);
 	get_next_line(fd);
 }
