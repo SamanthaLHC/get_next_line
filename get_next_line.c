@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:21:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/15 23:18:11 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/16 19:03:06 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include "get_next_line.h"
-
-//!!!!!!!!!!!!!
+// erase this
 #include <stdio.h>
 #include <fcntl.h>
-// !!!!!!!!!!!
+// erase this
 
 char	*get_next_line(int fd)
 {
@@ -37,10 +36,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	ft_memcpy(line, buf, i);
 	line[i] = '\0';
-	// erase this
-	printf("%s\n", line);
-	printf("%d\n", ret);
-	// erase this ^
+// buf = ici placer un calcul pour supprimer le debut du buf 
+// correspondant a la line
 	return (line);
 }
 
@@ -48,6 +45,10 @@ char	*get_next_line(int fd)
 int main()
 {
 	int fd;
+	char *line;
 	fd = open("fichier.txt", O_RDWR);
-	get_next_line(fd);
+	// faire une boucle 
+		line = get_next_line(fd);
+		printf("%s\n", line);
+		free(line);
 }
