@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:21:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/16 19:03:06 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/16 20:07:41 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ char	*get_next_line(int fd)
 	line = malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
-	ft_memcpy(line, buf, i);
+	ft_memmove(line, buf, i);
 	line[i] = '\0';
-// buf = ici placer un calcul pour supprimer le debut du buf 
-// correspondant a la line
+	ret -= i;
+	ft_memmove(buf, buf + i, ret);
+	printf("%.*s\n",ret , buf);
 	return (line);
 }
 
@@ -51,4 +52,7 @@ int main()
 		line = get_next_line(fd);
 		printf("%s\n", line);
 		free(line);
+		// line = get_next_line(fd);
+		// printf("%s\n", line);
+		// free(line);
 }
