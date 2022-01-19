@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 12:21:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/16 20:07:41 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/19 14:57:00 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_next_line(int fd)
 
 	i = 0;
 	ret = read(fd, buf, BUFFER_SIZE);
-	while (buf[i] != '\n' && i < BUFFER_SIZE)
+	while (buf[i] != '\n')
 		i++;
 	line = malloc(sizeof(char) * (i + 1));
 	if (!line)
@@ -38,7 +38,9 @@ char	*get_next_line(int fd)
 	line[i] = '\0';
 	ret -= i;
 	ft_memmove(buf, buf + i, ret);
-	printf("%.*s\n",ret , buf);
+	//
+	//printf("%.*s\n",ret , buf);
+	//
 	return (line);
 }
 
@@ -52,7 +54,10 @@ int main()
 		line = get_next_line(fd);
 		printf("%s\n", line);
 		free(line);
-		// line = get_next_line(fd);
-		// printf("%s\n", line);
-		// free(line);
+		line = get_next_line(fd);
+		printf("%s\n", line);
+		free(line);
+		line = get_next_line(fd);
+		printf("%s\n", line);
+		free(line);
 }
