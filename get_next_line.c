@@ -6,7 +6,7 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:49:48 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/19 17:20:06 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/19 18:16:14 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,3 +19,12 @@
 #include <stdio.h>
 #include <fcntl.h>
 // erase this
+
+char	*get_next_line(int fd)
+{
+	int			i;
+	char		*line;
+	static char	*txt;
+
+
+	
