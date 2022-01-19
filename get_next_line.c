@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/12 12:21:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/19 14:57:00 by sle-huec         ###   ########.fr       */
+/*   Created: 2022/01/19 15:49:48 by sle-huec          #+#    #+#             */
+/*   Updated: 2022/01/19 17:20:06 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,45 +19,3 @@
 #include <stdio.h>
 #include <fcntl.h>
 // erase this
-
-char	*get_next_line(int fd)
-{
-	int			i;
-	char		*line;
-	static int	ret;
-	static char	buf[BUFFER_SIZE];
-
-	i = 0;
-	ret = read(fd, buf, BUFFER_SIZE);
-	while (buf[i] != '\n')
-		i++;
-	line = malloc(sizeof(char) * (i + 1));
-	if (!line)
-		return (NULL);
-	ft_memmove(line, buf, i);
-	line[i] = '\0';
-	ret -= i;
-	ft_memmove(buf, buf + i, ret);
-	//
-	//printf("%.*s\n",ret , buf);
-	//
-	return (line);
-}
-
-// MAIN A DELETE
-int main()
-{
-	int fd;
-	char *line;
-	fd = open("fichier.txt", O_RDWR);
-	// faire une boucle 
-		line = get_next_line(fd);
-		printf("%s\n", line);
-		free(line);
-		line = get_next_line(fd);
-		printf("%s\n", line);
-		free(line);
-		line = get_next_line(fd);
-		printf("%s\n", line);
-		free(line);
-}
