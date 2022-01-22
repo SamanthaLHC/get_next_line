@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 22:32:13 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/16 19:42:38 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/22 15:18:41 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@
 
 char    *get_next_line(int fd);
 void    *ft_memmove(void *dest, void *src, int n);
+int     ft_strchr(char *s, int c);
 
 #endif
