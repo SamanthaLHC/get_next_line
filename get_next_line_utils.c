@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 22:22:32 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/22 15:37:54 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/01/24 19:03:58 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,31 @@ int ft_strchr(char *s, int c)
         return (-1);
 }
 
-int     ft_strlen
+size_t  ft_strlen(const char *str)
+{
+        size_t  i;
+
+        i = 0;
+        while (str[i] != '\0')
+        {
+                i++;
+        }
+        return (i);
+}
 
 char    *ft_strjoin(char *s1, char *s2)
 {
-        char         *new_str;
-        int          size;
+        char    *new_str;
+        int     size;
+        int     idx_s1;  
 
-        size = (ft_strlen(s1) + ft_strlen(s2) + 1);
+        idx_s1 = ft_strlen(s1)
+        size = (idx_s1 + ft_strlen(s2) + 1);
         new_str = (char *)malloc(sizeof(char) * size);
         if (!new_str)
                 return (0);
-        ft_strlcpy(new_str, s1, size);
-        ft_strlcat((char *)new_str, s2, size);
+        new_str = ft_memmove(new_str, s1, ft_strlen(s1));
+        new_str = ft_memmove(&new_str[idx_s..1], s2, ft_strlen(s2));
+        new_str[size - 1] = '\0';
         return (new_str);
 }
