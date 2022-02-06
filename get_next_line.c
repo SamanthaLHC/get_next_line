@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:49:48 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/01/22 15:30:14 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/02/06 15:51:38 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,19 @@ char	*get_next_line(int fd)
 {
 	int			i;
 	char		*line;
-	char		*tmp;
 	static char	*rd_buf;
 
-	i = 0;
+	i = 1;
+	rd_buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	read(fd, rd_buf, BUFFER_SIZE);
-	ft_memmove(tmp, rd_buf, BUFFER_SIZE + 1);
+	//erase this
+	printf("----> %s\n", rd_buf);
+	//erase this
+	
+
+	return (rd_buf);
+}
+	/*
 	while (ft_strchr(rd_buf, '\n'))
 	{
 		line = 
@@ -37,8 +44,9 @@ char	*get_next_line(int fd)
 
 	return (line);
 }
+*/
 
-// MAIN A DELETE
+//MAIN A DELETE
 int main()
 {
 	int fd;
