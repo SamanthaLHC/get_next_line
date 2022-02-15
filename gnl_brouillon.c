@@ -136,14 +136,28 @@ char *get_one_line(char *c)
 }
 */
 
+size_t  ft_strlen(const char *str)
+{
+        size_t  i;
+
+        i = 0;
+        while (str[i] != '\0')
+        {
+                i++;
+        }
+        return (i);
+}
+
 
 char *get_one_line_fd(int fd)
 {
-    char *line;
-    static char *tmp;
-    unsigned int i;
-    int ret;
-    int finish;
+    char            *line;
+    char            *tmp;
+    static char     *save;
+    unsigned int    i;
+    int             ind;
+    int             ret;
+    int             finish;
 
     i = 1;
     finish = 0;
@@ -152,6 +166,8 @@ char *get_one_line_fd(int fd)
     while (finish == 0)
     {
         tmp = line;
+            // a chaque tour de boucle a l endroit ou 
+            // j'assigne line a tmp je cree un leak 
         line = malloc(sizeof(char) * (BUFFER_SIZE * i) + sizeof(char));
         //au lieu de +1 pour le \0
         if (!line)
@@ -166,6 +182,23 @@ char *get_one_line_fd(int fd)
         {
             finish = 1;
             ret = ft_strchr(line, '\n');
+            //test test test 
+            if (line[ret] != '\n')
+            {
+                ind = line[ret + 1];
+                while (line[ind])
+                {
+                    ft_strlen(line[ind]);
+                    ind ++;
+                }
+                save = ft_substr(line, ret + 1, ind);
+            }
+            // a partir de line[ret + 1] je veux
+            // trouver un moyen d extraire ce qui est lu mais
+            //que je ne veux pas dans line pour la save dans la static 
+            // hypothese : substr avec ret en start + un index 
+            //que je recupere avec strlen.
+            
             line[ret] = '\0';
         }
         i++;
@@ -178,12 +211,11 @@ int main()
 	int fd;
 	char *line;
 	fd = open("fichier.txt", O_RDWR);
-	// faire une boucle 
-    while (1) {
+        while (1) {
     	line = get_one_line_fd(fd);
 	    printf("%s\n", line);
 		free(line);
-        if (line == NULL)
-            break;
-    }
+    if (line == NULL)
+       break;
+   }
 }
