@@ -19,8 +19,10 @@
 #include <unistd.h>
 #include <stddef.h>
 
-char    *get_next_line(int fd);
-void    *ft_memmove(void *dest, void *src, int n);
-int     ft_strchr(char *s, int c);
+char	*get_next_line(int fd);
+char	*ft_substr(char *s, int start, int len);
+char	*ft_strcpy(char *dst, char *src);
+int		ft_strchr(char *s, int c);
+size_t	ft_strlen(char *str);
 
 #endif

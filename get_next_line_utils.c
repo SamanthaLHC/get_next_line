@@ -10,73 +10,67 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stddef.h>
 
-void    *ft_memmove(char *dest, char *src, int n)
+char	*ft_substr(char *s, int start, int len)
 {
-    int         i;
+	int		i;
+	char	*temp;
 
-    if (dest == NULL && src == NULL)
-        return (NULL);
-    i = 0;
-    if (src < dest)
-    {
-        while (n > 0)
-        {
-            dest[n - 1] = src[n - 1];
-            n--;
-        }
-        return (dest);
-    }
-    while (i < n)
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    return (dest);
+	i = 0;
+	temp = malloc(sizeof(*s) * (len + 1));
+	if (!temp)
+		return (NULL);
+	while (i < len && s[start + i])
+	{
+		temp[i] = s[start + i];
+		i++;
+	}
+	temp[i] = '\0';
+	return (temp);
 }
 
-int ft_strchr(char *s, int c)
+char	*ft_strcpy(char *dst, char *src)
 {
-    int i;
+	unsigned int	i;
 
-    i = 0;
-    while (s[i])
-    {
-            if (s[i] == (char)c)
-                    return (i);
-            i++;
-        }
-        if (s[i] == 0 && (char)c == 0)
-                return (i);
-        return (-1);
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }
 
-size_t  ft_strlen(const char *str)
+int	ft_strchr(char *s, int c)
 {
-        size_t  i;
+	int	i;
 
-        i = 0;
-        while (str[i] != '\0')
-        {
-                i++;
-        }
-        return (i);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return (i);
+		i++;
+	}
+	if (s[i] == 0 && c == 0)
+		return (i);
+	return (-1);
 }
 
-char    *ft_strjoin(char *s1, char *s2)
+size_t	ft_strlen(char *str)
 {
-        char    *new_str;
-        int     size;
-        int     idx_s1;  
+	size_t	i;
 
-        idx_s1 = ft_strlen(s1)
-        size = (idx_s1 + ft_strlen(s2) + 1);
-        new_str = (char *)malloc(sizeof(char) * size);
-        if (!new_str)
-                return (0);
-        new_str = ft_memmove(new_str, s1, ft_strlen(s1));
-        new_str = ft_memmove(&new_str[idx_s..1], s2, ft_strlen(s2));
-        new_str[size - 1] = '\0';
-        return (new_str);
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
 }
