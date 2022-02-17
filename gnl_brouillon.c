@@ -35,6 +35,7 @@ char *ft_strcpy(char *dst, char *src)
 		dst[i] = src[i];
 		i++;
 	}
+	dst[i] = '\0';
 	return (dst);
 }
 
@@ -49,7 +50,7 @@ int ft_strchr(char *s, int c)
 			return (i);
 		i++;
 	}
-		if (s[i] == 0 && (char)c == 0)
+		if (s[i] == 0 && c == 0)
 				return (i);
 		return (-1);
 }
@@ -59,6 +60,8 @@ size_t  ft_strlen(char *str)
 		size_t  i;
 
 		i = 0;
+		if (!str)
+			return (0);
 		while (str[i] != '\0')
 		{
 				i++;
@@ -80,7 +83,7 @@ char *get_next_line(int fd)
 	finish = 0;
 	line = save;
 	save = 0;
-	
+
 	while (finish == 0)
 	{
 		if (line != NULL && ft_strchr(line, '\n') != -1)
@@ -89,20 +92,22 @@ char *get_next_line(int fd)
 			ret = ft_strchr(line, '\n');
 			if (line[ret + 1]) 
 			{
-				len = ft_strlen(&line[ret + 1]);
+				len = ft_strlen(&line[ret + 1]); // idee je voulais commencer apres le \n si il n y a rien?
 				save = ft_substr(line, ret + 1, len);
 			}			
 			line[ret + 1] = '\0';
 			return (line);
 		}
 		tmp = line;
-		len = 0;
+		len = 0; //pb
 		line = malloc(sizeof(char) * (BUFFER_SIZE * i) + sizeof(char));
 		if (!line)
 			return (NULL);
-		if (tmp != NULL)
+		if (tmp)
 		{
+			//probleme here
 			ft_strcpy(line, tmp);
+				free(tmp);
 			len = ft_strlen(line);
 		}
 		ret = read(fd, line + len, BUFFER_SIZE);
@@ -121,12 +126,12 @@ int main()
 	int fd;
 	char *line;
 	fd = open("fichier.txt", O_RDWR);
-	while (1) 
+	while (1) //prbleme 
 	{
 		line = get_next_line(fd);
 		printf("%s", line);
 		free(line);
-			if (line == NULL)
+			if (!line)
 				break;
 	}
 }
