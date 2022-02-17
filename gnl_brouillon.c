@@ -82,7 +82,8 @@ char *get_next_line(int fd)
 	i = 1 + !!save;
 	finish = 0;
 	line = save;
-	save = 0;
+	free(save);
+	save = NULL;
 
 	while (finish == 0)
 	{
@@ -92,20 +93,19 @@ char *get_next_line(int fd)
 			ret = ft_strchr(line, '\n');
 			if (line[ret + 1]) 
 			{
-				len = ft_strlen(&line[ret + 1]); // idee je voulais commencer apres le \n si il n y a rien?
+				len = ft_strlen(&line[ret + 1]);
 				save = ft_substr(line, ret + 1, len);
 			}			
 			line[ret + 1] = '\0';
 			return (line);
 		}
 		tmp = line;
-		len = 0; //pb
+		len = 0;
 		line = malloc(sizeof(char) * (BUFFER_SIZE * i) + sizeof(char));
 		if (!line)
 			return (NULL);
 		if (tmp)
 		{
-			//probleme here
 			ft_strcpy(line, tmp);
 				free(tmp);
 			len = ft_strlen(line);
@@ -113,7 +113,10 @@ char *get_next_line(int fd)
 		ret = read(fd, line + len, BUFFER_SIZE);
 		line[ret + len] = '\0';
 		if (ret == 0 && ft_strlen(line) == 0)
+		{
+			free(save);
 			return (NULL);
+		}
 		else if (ret == 0)
 			return (line);	
 		i++;
@@ -126,7 +129,7 @@ int main()
 	int fd;
 	char *line;
 	fd = open("fichier.txt", O_RDWR);
-	while (1) //prbleme 
+	while (1)
 	{
 		line = get_next_line(fd);
 		printf("%s", line);
@@ -134,4 +137,5 @@ int main()
 			if (!line)
 				break;
 	}
+	system ("leaks $a.out");
 }
