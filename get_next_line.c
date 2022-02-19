@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:49:48 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/02/19 14:45:17 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/02/19 16:22:22 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,30 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-int	get_save(char **save, char *line)
+int	get_line(char **line, char **save, int *len, unsigned int i)
 {
 	int		ret;
+	char	*tmp;
 
-	if (line != NULL && ft_strchr(line, '\n') != -1)
+	*len = 0;
+	if (*line != NULL && ft_strchr(*line, '\n') != -1)
 	{
-		ret = ft_strchr(line, '\n');
-		*save = ft_substr(line, ret + 1, ft_strlen(&line[ret + 1]));
-		line[ret + 1] = '\0';
+		ret = ft_strchr(*line, '\n');
+		*save = ft_substr(*line, ret + 1, ft_strlen(&(*line)[ret + 1]));
+		(*line)[ret + 1] = '\0';
 		return (1);
 	}
-	return (0);
-}
-
-int	increase_buff(char **line, unsigned int i)
-{
-	char			*tmp;
-	int				len;
-
-	len = 0;
 	tmp = *line;
 	*line = malloc(sizeof(char) * (BUFFER_SIZE * i + 1));
 	if (!*line)
-		return (-1);
+		return (1);
 	if (tmp)
 	{
 		ft_strcpy(*line, tmp);
 		free(tmp);
-		len = ft_strlen(*line);
+		*len = ft_strlen(*line);
 	}
-	return (len);
+	return (0);
 }
 
 char	*last_read(char *line)
@@ -72,14 +65,14 @@ char	*get_next_line(int fd)
 	save = NULL;
 	while (1)
 	{
-		if (get_save(&save, line))
+		if (get_line(&line, &save, &len, i))
 			return (line);
-		len = increase_buff(&line, i);
-		if (len == -1)
-			return (NULL);
 		ret = read(fd, line + len, BUFFER_SIZE);
 		if (ret == -1)
+		{
+			free(line);
 			return (NULL);
+		}
 		line[ret + len] = '\0';
 		if (ret == 0)
 			return (last_read(line));
