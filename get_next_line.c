@@ -6,7 +6,7 @@
 /*   By: sle-huec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:49:48 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/02/19 14:35:26 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/02/19 14:45:17 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-int	get_save(char **save ,char *line)
+int	get_save(char **save, char *line)
 {
 	int		ret;
+
 	if (line != NULL && ft_strchr(line, '\n') != -1)
 	{
 		ret = ft_strchr(line, '\n');
@@ -29,7 +30,7 @@ int	get_save(char **save ,char *line)
 	return (0);
 }
 
-int	increase_buff(char **line, unsigned i)
+int	increase_buff(char **line, unsigned int i)
 {
 	char			*tmp;
 	int				len;
@@ -42,20 +43,20 @@ int	increase_buff(char **line, unsigned i)
 	if (tmp)
 	{
 		ft_strcpy(*line, tmp);
-		free(tmp);		
+		free(tmp);
 		len = ft_strlen(*line);
 	}
 	return (len);
 }
 
-char *last_read(char *line)
+char	*last_read(char *line)
 {
 	if (line[0] == '\0')
 	{
 		free(line);
 		return (NULL);
 	}
-	return (line);	
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -72,20 +73,22 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		if (get_save(&save, line))
-			return (line);		
-		if ((len = increase_buff(&line, i)) == -1)
+			return (line);
+		len = increase_buff(&line, i);
+		if (len == -1)
 			return (NULL);
-		if ((ret = read(fd, line + len, BUFFER_SIZE)) == -1)
+		ret = read(fd, line + len, BUFFER_SIZE);
+		if (ret == -1)
 			return (NULL);
 		line[ret + len] = '\0';
 		if (ret == 0)
-			return last_read(line);
+			return (last_read(line));
 		i++;
 	}
 	return (line);
 }
 
-
+/*
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -103,3 +106,4 @@ int main()
 				break;
 	}
 }
+//*/
