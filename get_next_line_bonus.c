@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/19 15:49:48 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/02/21 12:13:17 by sle-huec         ###   ########.fr       */
+/*   Created: 2022/02/21 11:57:34 by sle-huec          #+#    #+#             */
+/*   Updated: 2022/02/21 12:27:25 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-int	get_line(char **line, char **save, int *len, unsigned int i)
+int	get_line(char **line, char *save[], int *len, unsigned int i)
 {
 	int		ret;
 	char	*tmp;
@@ -55,19 +55,19 @@ char	*last_read(char *line)
 char	*get_next_line(int fd)
 {
 	char			*line;
-	static char		*save;
+	static char		*save[256];
 	unsigned int	i;
 	int				len;
 	int				ret;
 
-	if (fd < 0)
+	if (fd < 0 || fd > 255)
 		return (NULL);
-	i = 1 + !!save;
-	line = save;
-	save = NULL;
+	i = 1 + !!save[fd];
+	line = save[fd];
+	save[fd] = NULL;
 	while (1)
 	{
-		if (get_line(&line, &save, &len, i))
+		if (get_line(&line, &save[fd], &len, i))
 			return (line);
 		ret = read(fd, line + len, BUFFER_SIZE);
 		if (ret == -1)
